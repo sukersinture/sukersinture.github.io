@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script>
+$(function(){
+	let clientWidth = document.body.clientWidth;
+	let clientHeight = document.body.clientHeight;
+	$(document).on("pagecreate", "#planefight", function(){
+		let status = 0;// 游戏状态
+		// 设置背景图片和尺寸
+		$("#planePanel").css("width", clientWidth + "px")
+				.css("height", clientHeight - 45 + "px")
+				.css("background-image", "url(http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE3oGfPf057q9.Dtos8.44NFVqNnGqqpa3EWHRAgpos8xgN4LmJxpSNGE*ntE8FaNqw!/b&bo=4AFUAwAAAAADB5Q!&rf=viewer_4)");
+		// 让飞机根据手指移动
+		$("#planePanel").on("touchmove", function(e) {
+			let x = e.originalEvent.changedTouches[0].pageX;
+			let y = e.originalEvent.changedTouches[0].pageY;
+			$("#hero").css("left", x-50 + "px").css("top", y-120 + "px");
+		});
+		$("#planePanel").on("touchstart", function(){
+			hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
+			hero.fadeIn(200);
+			gameObj.start();
+		});
+		$("#planePanel").on("touchend", function(){
+			gameObj.stop();
+		});
+		$("#planeback").on("click", clearPanel);
+		function clearPanel(){
+			hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
+			for (let i in bees) {
+				bees[i].remove();
+			}
+			bees = [];
+			for (let i in airplanes) {
+				airplanes[i].remove();
+			}
+			airplanes = [];
+			for (let i in bullets) {
+				bullets[i].remove();
+			}
+			bullets = [];
+		}
+		let hero = $("#hero");
+		hero.imgs = ["http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPOTTaNlUa6c832svvTg1hssrKXacYyimiSsZehNvwjruUKLF3c5KiDOV5gXFyYbI8!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4", 
+		"http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPvDqum3R7tuIDqrDnzKquY9doiIoGEYjAOKQ0piraMvYLCuKWct2ql3wJgCeT8VbU!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4"];
+		hero.count = 0;
+		hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
+		hero.timer = null;
+		hero.penHuo = function() {
+			if (this.timer) {
+				clearInterval(this.timer);
+			}
+			this.timer = setInterval(function() {
+				hero.css("background-image", "url("+hero.imgs[hero.count++%2]+")");
+			}, 100);
+		};
+		hero.stop = function() {
+			clearInterval(this.timer);
+		};
+		hero.isHit = function() {
+			for (let i in bees) {
+				if (+this.css("left").slice(0,-2)+97 > +bees[i].css("left").slice(0,-2)
+						&& +this.css("left").slice(0,-2) < +bees[i].css("left").slice(0,-2)+60
+						&& +this.css("top").slice(0,-2)+124>+bees[i].css("top").slice(0,-2)
+						&& +this.css("top").slice(0,-2)<+bees[i].css("top").slice(0,-2)+50) {
+					gameObj.stop();
+					hero.fadeOut(200);
+					clearPanel();
+				}
+			}
+			for (let i in airplanes) {
+				if (+this.css("left").slice(0,-2)+97 > +airplanes[i].css("left").slice(0,-2)
+						&& +this.css("left").slice(0,-2) < +airplanes[i].css("left").slice(0,-2)+49
+						&& +this.css("top").slice(0,-2)+124>+airplanes[i].css("top").slice(0,-2)
+						&& +this.css("top").slice(0,-2)<+airplanes[i].css("top").slice(0,-2)+36) {
+					gameObj.stop();
+					hero.fadeOut(200);
+					clearPanel();
+				}
+			}
+		};
+		let bees = [];
+		let airplanes = [];
+		let bullets = [];
+		let beeImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE3tN.55P5sf2efSpOr*ft4Enep5hjTYYDxF2l74rvXPwRpEsr8MOsH.2HFu1gxAIrc!/b&bo=PAAyAAAAAAADByw!&rf=viewer_4";
+		let airplaneImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/45NBuzDIW489QBoVep5mcUpbEfk6ifQP8FnLs9TVRmkKKkzfL4CWmMyD.FCiEZa84jpJLcD*HRBPmexzttFwDHltSUnaAhxSUxzQ*OLuBv4!/b&bo=MQAkAAAAAAADFyc!&rf=viewer_4";
+		let bulletImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE2WiyS9lEbLUN66n8u4djxcZvwrueoWcqi8FoU7XzLNuuqALv3npdnkX6e*oLb0e8E!/b&bo=CAAOAAAAAAADByQ!&rf=viewer_4";
+		function step(){
+			let nextLeft = +this.css("left").slice(0,-2) + this.xspeed;
+			let nextTop = +this.css("top").slice(0,-2) + this.yspeed;
+			if (nextLeft <= 0) {
+				nextLeft = 0;
+				this.xspeed = -this.xspeed;
+			} else if (nextLeft >= clientWidth - 60) {
+				nextLeft = clientWidth - 60;
+				this.xspeed = -this.xspeed;
+			}
+			this.css("left", nextLeft + "px");
+			this.css("top", nextTop + "px");
+		}
+		function outOfPanel() {
+			if (+this.css("top").slice(0,-2) > clientHeight || +this.css("top").slice(0,-2) < -100) {
+				$(this).remove();
+				return true;
+			}
+			return false;
+		}
+		function isHit() {
+			for (let i in bullets) {
+				if (+this.css("left").slice(0,-2)+60 > +bullets[i].css("left").slice(0,-2)
+						&& +this.css("left").slice(0,-2) < +bullets[i].css("left").slice(0,-2)+8
+						&& +this.css("top").slice(0,-2)+50>+bullets[i].css("top").slice(0,-2)
+						&& +this.css("top").slice(0,-2)<+bullets[i].css("top").slice(0,-2)+14) {
+					$(this).remove();
+					return true;
+				}
+			}
+			return false;
+		}
+		let enemyFactory = {};
+		enemyFactory.timer = null;
+		enemyFactory.create = function() {
+			if (this.timer) {
+				clearInterval(this.timer);
+			}
+			this.timer = setInterval(function() {
+				let flag = parseInt(Math.random()*5);
+				if (flag == 0) {
+					let airplane = $("<img style='position: absolute;' src='"+airplaneImg+"'/>");
+					let x = parseInt(Math.random()*clientWidth - 50);
+					airplane.css({"left": x + "px", "top": "-40px"});
+					$("#planePanel").append(airplane);
+					airplane.yspeed = 8;
+					airplane.step = step;
+					airplane.outOfPanel = outOfPanel;
+					airplanes.push(airplane);
+				} else {
+					let bee = $("<img style='position: absolute;' src='"+beeImg+"'/>");
+					let x = parseInt(Math.random()*clientWidth - 60);
+					bee.css({"left": x + "px", "top": "-50px"});
+					$("#planePanel").append(bee);
+					bee.xspeed = 3;
+					bee.yspeed = 4;
+					bee.step = step;
+					bee.outOfPanel = outOfPanel;
+					bee.isHit = isHit;
+					bees.push(bee);
+				}
+			}, 500);
+		};
+		enemyFactory.stop = function() {
+			clearInterval(this.timer);
+		};
+		let bulletFactory = {};
+		bulletFactory.timer = null;
+		bulletFactory.create = function() {
+			if (this.timer) {
+				clearInterval(this.timer);
+			}
+			this.timer = setInterval(function(){
+				let bullet = $("<img style='position: absolute;' src='"+bulletImg+"'/>");
+				let x = +hero.css("left").slice(0, -2) + 45;
+				let y = +hero.css("top").slice(0, -2);
+				bullet.css({"left": x + "px", "top": y + "px"});
+				$("#planePanel").append(bullet);
+				bullet.yspeed = -10;
+				bullet.step = step;
+				bullet.outOfPanel = outOfPanel;
+				bullets.push(bullet);
+			}, 1000);
+		};
+		bulletFactory.stop = function() {
+			clearInterval(this.timer);
+		};
+		let gameObj = {};
+		gameObj.timer = null;
+		gameObj.start = function() {// 开始游戏
+			hero.penHuo();
+			enemyFactory.create();
+			bulletFactory.create();
+			if (this.timer) {
+				clearInterval(this.timer);
+			}
+			this.timer = setInterval(function() {
+				for (let i in bees) {
+					bees[i].step();
+					let r = bees[i].outOfPanel();
+					if (r) {
+						bees.splice(i, 1);
+						i--;
+					}
+					r = bees[i].isHit();
+					if (r) {
+						bees.splice(i, 1);
+						i--;
+					}
+				}
+				for (let i in airplanes) {
+					airplanes[i].step();
+					let r = airplanes[i].outOfPanel();
+					if (r) {
+						airplanes.splice(i, 1);
+						i--;
+					}
+				}
+				for (let i in bullets) {
+					bullets[i].step();
+					let r = bullets[i].outOfPanel();
+					if (r) {
+						bullets.splice(i, 1);
+						i--;
+					}
+				}
+				hero.isHit();
+			}, 20);
+		};
+		gameObj.stop = function() {
+			hero.stop();
+			enemyFactory.stop();
+			bulletFactory.stop();
+			clearInterval(this.timer);
+		};
+		gameObj.start();
+	});
+	
+});
+</script>
+</head>
+<body>
+<!-- 应用首页 -->
+<div data-role="page" id="index">
+	<div data-role="header" >
+		<h1>小六的游戏</h1>
+	</div>
+	<div data-role="main" class="ui-content">
+	<h2>游戏列表</h2>
+	<ul data-role="listview" data-input="#myFilter" data-inset="true">
+		<li><a href="#planefight" data-transition="slide">飞机大战</a></li>
+		<li><a href="#flappy" data-transition="slide">Flappy Bird</a></li>
+	</ul>
+	</div>
+</div>
+<!-- 飞机大战 -->
+<div data-role="page" id="planefight">
+	<div data-role="header">
+		<a href="#index" id="planeback" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">返回</a>
+		<h1>飞机大战</h1>
+	</div>
+	<div data-role="main" id="planePanel" style="position: relative; overflow: hidden;">
+		<img style="position: absolute;" id="hero" src="http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPOTTaNlUa6c832svvTg1hssrKXacYyimiSsZehNvwjruUKLF3c5KiDOV5gXFyYbI8!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4"/>
+	</div>
+</div>
+<!-- Flappy Bird -->
+<div data-role="page" id="flappy">
+	<div data-role="header" >
+		<a href="#index" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">返回</a>
+		<h1>Flappy Bird</h1>
+	</div>
+	<div data-role="main" id="flappyPanel" style="position: relative; overflow: hidden;">
+		
+	</div>
+</div>
+</body>
+</html>
