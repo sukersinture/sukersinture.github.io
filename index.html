@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="gbk"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -14,7 +15,7 @@ $(function(){
 		// 设置背景图片和尺寸
 		$("#planePanel").css("width", clientWidth + "px")
 				.css("height", clientHeight - 45 + "px")
-				.css("background-image", "url(http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE3oGfPf057q9.Dtos8.44NFVqNnGqqpa3EWHRAgpos8xgN4LmJxpSNGE*ntE8FaNqw!/b&bo=4AFUAwAAAAADB5Q!&rf=viewer_4)");
+				.css("background-image", "url(background.png)");
 		// 让飞机根据手指移动
 		$("#planePanel").on("touchmove", function(e) {
 			let x = e.originalEvent.changedTouches[0].pageX;
@@ -46,8 +47,7 @@ $(function(){
 			bullets = [];
 		}
 		let hero = $("#hero");
-		hero.imgs = ["http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPOTTaNlUa6c832svvTg1hssrKXacYyimiSsZehNvwjruUKLF3c5KiDOV5gXFyYbI8!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4", 
-		"http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPvDqum3R7tuIDqrDnzKquY9doiIoGEYjAOKQ0piraMvYLCuKWct2ql3wJgCeT8VbU!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4"];
+		hero.imgs = ["images/hero0.png", "images/hero1.png"];
 		hero.count = 0;
 		hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
 		hero.timer = null;
@@ -87,9 +87,9 @@ $(function(){
 		let bees = [];
 		let airplanes = [];
 		let bullets = [];
-		let beeImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE3tN.55P5sf2efSpOr*ft4Enep5hjTYYDxF2l74rvXPwRpEsr8MOsH.2HFu1gxAIrc!/b&bo=PAAyAAAAAAADByw!&rf=viewer_4";
-		let airplaneImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/45NBuzDIW489QBoVep5mcUpbEfk6ifQP8FnLs9TVRmkKKkzfL4CWmMyD.FCiEZa84jpJLcD*HRBPmexzttFwDHltSUnaAhxSUxzQ*OLuBv4!/b&bo=MQAkAAAAAAADFyc!&rf=viewer_4";
-		let bulletImg = "http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5o1t2P2tpUkz1Fz1SkxDJE2WiyS9lEbLUN66n8u4djxcZvwrueoWcqi8FoU7XzLNuuqALv3npdnkX6e*oLb0e8E!/b&bo=CAAOAAAAAAADByQ!&rf=viewer_4";
+		let beeImg = "images/bee.png";
+		let airplaneImg = "images/airplane.png";
+		let bulletImg = "images/bullet.png";
 		function step(){
 			let nextLeft = +this.css("left").slice(0,-2) + this.xspeed;
 			let nextTop = +this.css("top").slice(0,-2) + this.yspeed;
