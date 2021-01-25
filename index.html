@@ -22,7 +22,7 @@ $(function(){
 			let y = e.pageY;
 			$("#hero").css("left", x-50 + "px").css("top", y-120 + "px");
 		});
-		$("#planePanel").on("click", function(){
+		$("#planePanel").on("mouseover", function(){
 			hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
 			hero.fadeIn(200);
 			gameObj.start();
