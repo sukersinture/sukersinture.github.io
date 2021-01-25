@@ -17,7 +17,7 @@ $(function(){
 				.css("height", clientHeight - 45 + "px")
 				.css("background-image", "url(images/background.png)");
 		// 让飞机根据手指移动
-		$("#hero").on("mousemove", function(e) {
+		$("#planePanel").on("mousemove", function(e) {
 			let x = e.pageX;
 			let y = e.pageY;
 			$("#hero").css("left", x-50 + "px").css("top", y-120 + "px");
@@ -27,8 +27,8 @@ $(function(){
 			hero.fadeIn(200);
 			gameObj.start();
 		});
-		$("body").on("mouseout", function(){
-			//gameObj.stop();
+		$("#planePanel").on("mouseout", function(){
+			gameObj.stop();
 		});
 		$("#planeback").on("click", clearPanel);
 		function clearPanel(){
