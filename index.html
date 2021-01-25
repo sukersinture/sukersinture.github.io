@@ -17,17 +17,17 @@ $(function(){
 				.css("height", clientHeight - 45 + "px")
 				.css("background-image", "url(background.png)");
 		// 让飞机根据手指移动
-		$("#planePanel").on("touchmove", function(e) {
+		$("#planePanel").on("mouseover", function(e) {
 			let x = e.originalEvent.changedTouches[0].pageX;
 			let y = e.originalEvent.changedTouches[0].pageY;
 			$("#hero").css("left", x-50 + "px").css("top", y-120 + "px");
 		});
-		$("#planePanel").on("touchstart", function(){
+		$("#planePanel").on("click", function(){
 			hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
 			hero.fadeIn(200);
 			gameObj.start();
 		});
-		$("#planePanel").on("touchend", function(){
+		$("#planePanel").on("mouseout", function(){
 			gameObj.stop();
 		});
 		$("#planeback").on("click", clearPanel);
