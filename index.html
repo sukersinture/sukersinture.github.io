@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="gbk"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -11,12 +11,12 @@ $(function(){
 	let clientWidth = document.body.clientWidth;
 	let clientHeight = document.body.clientHeight;
 	$(document).on("pagecreate", "#planefight", function(){
-		let status = 0;// ÓÎÏ·×´Ì¬
-		// ÉèÖÃ±³¾°Í¼Æ¬ºÍ³ß´ç
+		let status = 0;// æ¸¸æˆçŠ¶æ€
+		// è®¾ç½®èƒŒæ™¯å›¾ç‰‡å’Œå°ºå¯¸
 		$("#planePanel").css("width", clientWidth + "px")
 				.css("height", clientHeight - 45 + "px")
 				.css("background-image", "url(background.png)");
-		// ÈÃ·É»ú¸ù¾İÊÖÖ¸ÒÆ¶¯
+		// è®©é£æœºæ ¹æ®æ‰‹æŒ‡ç§»åŠ¨
 		$("#planePanel").on("touchmove", function(e) {
 			let x = e.originalEvent.changedTouches[0].pageX;
 			let y = e.originalEvent.changedTouches[0].pageY;
@@ -179,7 +179,7 @@ $(function(){
 		};
 		let gameObj = {};
 		gameObj.timer = null;
-		gameObj.start = function() {// ¿ªÊ¼ÓÎÏ·
+		gameObj.start = function() {// å¼€å§‹æ¸¸æˆ
 			hero.penHuo();
 			enemyFactory.create();
 			bulletFactory.create();
@@ -232,24 +232,24 @@ $(function(){
 </script>
 </head>
 <body>
-<!-- Ó¦ÓÃÊ×Ò³ -->
+<!-- åº”ç”¨é¦–é¡µ -->
 <div data-role="page" id="index">
 	<div data-role="header" >
-		<h1>Ğ¡ÁùµÄÓÎÏ·</h1>
+		<h1>å°å…­çš„æ¸¸æˆ</h1>
 	</div>
 	<div data-role="main" class="ui-content">
-	<h2>ÓÎÏ·ÁĞ±í</h2>
+	<h2>æ¸¸æˆåˆ—è¡¨</h2>
 	<ul data-role="listview" data-input="#myFilter" data-inset="true">
-		<li><a href="#planefight" data-transition="slide">·É»ú´óÕ½</a></li>
+		<li><a href="#planefight" data-transition="slide">é£æœºå¤§æˆ˜</a></li>
 		<li><a href="#flappy" data-transition="slide">Flappy Bird</a></li>
 	</ul>
 	</div>
 </div>
-<!-- ·É»ú´óÕ½ -->
+<!-- é£æœºå¤§æˆ˜ -->
 <div data-role="page" id="planefight">
 	<div data-role="header">
-		<a href="#index" id="planeback" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">·µ»Ø</a>
-		<h1>·É»ú´óÕ½</h1>
+		<a href="#index" id="planeback" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">è¿”å›</a>
+		<h1>é£æœºå¤§æˆ˜</h1>
 	</div>
 	<div data-role="main" id="planePanel" style="position: relative; overflow: hidden;">
 		<img style="position: absolute;" id="hero" src="http://m.qpic.cn/psc?/V54FgmPG3pUQBJ27ITUz32tTUB0NlHne/ruAMsa53pVQWN7FLK88i5tymjZT3Y.gYbwlGwLFHMOPOTTaNlUa6c832svvTg1hssrKXacYyimiSsZehNvwjruUKLF3c5KiDOV5gXFyYbI8!/b&bo=YQB8AAAAAAADBz8!&rf=viewer_4"/>
@@ -258,7 +258,7 @@ $(function(){
 <!-- Flappy Bird -->
 <div data-role="page" id="flappy">
 	<div data-role="header" >
-		<a href="#index" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">·µ»Ø</a>
+		<a href="#index" data-transition="flow" class="ui-btn ui-icon-arrow-l ui-btn-icon-left" data-direction="reverse">è¿”å›</a>
 		<h1>Flappy Bird</h1>
 	</div>
 	<div data-role="main" id="flappyPanel" style="position: relative; overflow: hidden;">
