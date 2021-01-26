@@ -1,11 +1,20 @@
 $(document).on("pagecreate", "#planefight", function(){
 	let clientWidth = document.body.clientWidth;
 	let clientHeight = document.body.clientHeight;
+	//if (clientWidth > 700) {
+		//打开一个新窗口并设置其大小
+		//window.open('index.html','','width=600,height=900,location=no,menubar=no,status=no,toolbar=no' );
+		//不询问是否关闭
+		//window.opener=null;
+		//window.open('','_self');
+		//关闭自己的窗口
+		//window.close();
+	//}
 	let status = 0;// 游戏状态
 	// 设置背景图片和尺寸
 	$("#planePanel").css("width", clientWidth + "px")
 			.css("height", clientHeight - 45 + "px")
-			.css("background-image", "url(images/background.jpg)")
+			.css("background-image", "url(images/background.png)")
 			.css("background-size", "100% 100%");
 	$("#fugai").css({width: clientWidth+"px", height: clientHeight - 45 + "px"});
 	// 让飞机根据手指移动
