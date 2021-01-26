@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> 示例 </title>
+</head>
+<body>
+	<span id="s1" style="font-size: 40px;"></span>
+	<div id="d1" style="position: absolute;"></div>
+	<script type="text/javascript">
+		/*
+		这里是注释：写在这里的文字不是代码，是给程序员看的
+		（多行注释）
+		*/
+		// 这里也是注释（单行注释）
+		let chang = 500;
+		let kuan = 100;
+		let x = 0;
+		let y = 100;
+		let r = 0, g = 0, b = 0;
+		let color = "#000000";
+
+
+		let d1 = document.getElementById("d1");
+		let s1 = document.getElementById("s1");
+		let time = setInterval(f, 5);
+		function f() {
+			let rr = r.toString(16);
+			if (rr.length == 1) {
+				rr = "0" + rr;
+			}
+			let gg = g.toString(16);
+			if (gg.length == 1) {
+				gg = "0" + gg;
+			}
+			let bb = b.toString(16);
+			if (bb.length == 1) {
+				bb = "0" + bb;
+			}
+			color = "#" + rr + "" + gg + "" + bb;
+			s1.innerHTML = color;
+			d1.style.backgroundColor = color;
+			b+=1;
+			if (b >= 256) {
+				b = 0;
+				g+=1;
+				if (g >= 256) {
+					g = 0;
+					r+=1;
+					if (r >= 256) {
+						clearInterval(time);
+					}
+				}
+			}
+		}
+		d1.style.width = chang + "px";
+		d1.style.height = kuan + "px";
+		d1.style.left = x + "px";
+		d1.style.top = y + "px";
+	</script>
+</body>
+</html>
