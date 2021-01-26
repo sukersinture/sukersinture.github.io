@@ -5,7 +5,8 @@ $(document).on("pagecreate", "#planefight", function(){
 	// 设置背景图片和尺寸
 	$("#planePanel").css("width", clientWidth + "px")
 			.css("height", clientHeight - 45 + "px")
-			.css("background-image", "url(images/background.png)");
+			.css("background-image", "url(images/background.jpg)")
+			.css("background-size", "100% 100%");
 	$("#fugai").css({width: clientWidth+"px", height: clientHeight - 45 + "px"});
 	// 让飞机根据手指移动
 	$("#planePanel").on("mousemove", function(e) {
