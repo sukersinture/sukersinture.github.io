@@ -16,6 +16,7 @@ $(function(){
 		$("#planePanel").css("width", clientWidth + "px")
 				.css("height", clientHeight - 45 + "px")
 				.css("background-image", "url(images/background.png)");
+		$("#fugai").css({width: clientWidth+"px", height: clientHeight - 45 + "px"});
 		// 让飞机根据手指移动
 		$("#planePanel").on("mousemove", function(e) {
 			let x = e.pageX;
@@ -225,7 +226,7 @@ $(function(){
 			bulletFactory.stop();
 			clearInterval(this.timer);
 		};
-		gameObj.start();
+		//gameObj.start();
 	});
 	
 });
@@ -253,6 +254,9 @@ $(function(){
 	</div>
 	<div data-role="main" id="planePanel" style="position: relative; overflow: hidden;">
 		<img style="position: absolute;" id="hero" src="images/hero0.png"/>
+		<div id="fugai" style="position: absolute; z-index: 9999;">
+			<img src="images/start.png" style="display: block; margin: 0 auto;"/>
+		</div>
 	</div>
 </div>
 <!-- Flappy Bird -->
