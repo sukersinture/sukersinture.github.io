@@ -1,0 +1,17 @@
+@charset "UTF-8";
+body{
+	margin: 0px;
+	background-color: black;
+}
+#container{
+	position: relative;
+	width: 1600px;
+	height: 900px;
+	margin: 0px auto;
+	background-image: url(../img/bz1.jpg);
+	background-size: 1600px 900px;
+}
+.deskicon{
+	width: 150px;
+	height: 150px;
+}

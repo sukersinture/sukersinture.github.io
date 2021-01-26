@@ -1,0 +1,24 @@
+@charset "UTF-8";
+#blackscreen{
+	position: absolute;
+	background-color: black;
+	width: 1600px;
+	height: 900px;
+	opacity: 1;
+	z-index: 9999;
+}
+#close{
+	position: absolute;
+	left: 750px;
+	top: -80px;
+	border-radius: 20px;
+	padding: 10px;
+	width: 80px;
+	height: 80px;
+	background-color: #f6f6f6;
+}
+#close>img{
+	margin: 0px;
+	width: 80px;
+	height: 80px;
+}

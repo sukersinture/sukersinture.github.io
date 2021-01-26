@@ -1,0 +1,25 @@
+@charset "UTF-8";
+#rightclick{
+	position: absolute;
+	padding: 10px;
+	width: 178px;
+	height: 0px;
+	border: 1px solid black;
+	background-color: #f6f6f6;
+	border-radius: 5px;
+	display: none;
+}
+#rightclick>div{
+	line-height: 29px;
+	font-family: 'Microsoft YaHei';
+	font-size: 14px;
+	border-bottom: 1px solid gray;
+	cursor: default;
+	opacity: 0;
+	padding: 0 10px;
+}
+#rightclick>div:hover{
+	background-color: #c0c0c0;
+	color: red;
+	border-color: red;
+}
