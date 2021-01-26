@@ -16,11 +16,30 @@ $(document).on("pagecreate", "#planefight", function(){
 		}
 	});
 	$("#fugai").on("click", function(){
-		status = 1;
+		if (status == 0) {
+			status = 1;
+			$(this).css("display", "none");
+			gameObj.start();
+		} else if (status == 3) {
+			status = 0;
+			$("#fugai").css("display", "block");
+			$("#startimg")[0].src = "images/start.png";
+		}
 	});
 	$("#planePanel").on("mouseout", function(){
-		status = 2;
+		if (status == 1) {
+			status = 2;
+			$("#fugai").css("display", "block");
+			$("#startimg")[0].src = "images/pause.png";
+		}
 	});
+	$("#planePanel").on("mouseover", function(){
+		if (status == 2) {
+			status = 1;
+			$("#fugai").css("display", "none");
+		}
+	});
+	// 点击返回时
 	$("#planeback").on("click", clearPanel);
 	function clearPanel(){
 		hero.css({"left":clientWidth/2-50 + "px", "top":clientHeight*2/3+"px"});
@@ -36,7 +55,9 @@ $(document).on("pagecreate", "#planefight", function(){
 			bullets[i].remove();
 		}
 		bullets = [];
-		status = 3;
+		status = 0;
+		$("#fugai").css("display", "block");
+		$("#startimg")[0].src = "images/start.png";
 	}
 	let hero = $("#hero");
 	hero.imgs = ["images/hero0.png", "images/hero1.png"];
@@ -48,7 +69,9 @@ $(document).on("pagecreate", "#planefight", function(){
 			clearInterval(this.timer);
 		}
 		this.timer = setInterval(function() {
-			hero.css("background-image", "url("+hero.imgs[hero.count++%2]+")");
+			if (status == 1) {
+				hero.css("background-image", "url("+hero.imgs[hero.count++%2]+")");
+			}
 		}, 100);
 	};
 	hero.stop = function() {
@@ -61,7 +84,6 @@ $(document).on("pagecreate", "#planefight", function(){
 					&& +this.css("top").slice(0,-2)+124>+bees[i].css("top").slice(0,-2)
 					&& +this.css("top").slice(0,-2)<+bees[i].css("top").slice(0,-2)+50) {
 				gameObj.stop();
-				hero.fadeOut(200);
 				clearPanel();
 			}
 		}
@@ -71,7 +93,6 @@ $(document).on("pagecreate", "#planefight", function(){
 					&& +this.css("top").slice(0,-2)+124>+airplanes[i].css("top").slice(0,-2)
 					&& +this.css("top").slice(0,-2)<+airplanes[i].css("top").slice(0,-2)+36) {
 				gameObj.stop();
-				hero.fadeOut(200);
 				clearPanel();
 			}
 		}
@@ -121,27 +142,29 @@ $(document).on("pagecreate", "#planefight", function(){
 			clearInterval(this.timer);
 		}
 		this.timer = setInterval(function() {
-			let flag = parseInt(Math.random()*5);
-			if (flag == 0) {
-				let airplane = $("<img style='position: absolute;' src='"+airplaneImg+"'/>");
-				let x = parseInt(Math.random()*clientWidth - 50);
-				airplane.css({"left": x + "px", "top": "-40px"});
-				$("#planePanel").append(airplane);
-				airplane.yspeed = 8;
-				airplane.step = step;
-				airplane.outOfPanel = outOfPanel;
-				airplanes.push(airplane);
-			} else {
-				let bee = $("<img style='position: absolute;' src='"+beeImg+"'/>");
-				let x = parseInt(Math.random()*clientWidth - 60);
-				bee.css({"left": x + "px", "top": "-50px"});
-				$("#planePanel").append(bee);
-				bee.xspeed = 3;
-				bee.yspeed = 4;
-				bee.step = step;
-				bee.outOfPanel = outOfPanel;
-				bee.isHit = isHit;
-				bees.push(bee);
+			if (status == 1) {
+				let flag = parseInt(Math.random()*5);
+				if (flag == 0) {
+					let airplane = $("<img style='position: absolute;' src='"+airplaneImg+"'/>");
+					let x = parseInt(Math.random()*clientWidth - 50);
+					airplane.css({"left": x + "px", "top": "-40px"});
+					$("#planePanel").append(airplane);
+					airplane.yspeed = 8;
+					airplane.step = step;
+					airplane.outOfPanel = outOfPanel;
+					airplanes.push(airplane);
+				} else {
+					let bee = $("<img style='position: absolute;' src='"+beeImg+"'/>");
+					let x = parseInt(Math.random()*clientWidth - 60);
+					bee.css({"left": x + "px", "top": "-50px"});
+					$("#planePanel").append(bee);
+					bee.xspeed = 3;
+					bee.yspeed = 4;
+					bee.step = step;
+					bee.outOfPanel = outOfPanel;
+					bee.isHit = isHit;
+					bees.push(bee);
+				}
 			}
 		}, 500);
 	};
@@ -155,15 +178,17 @@ $(document).on("pagecreate", "#planefight", function(){
 			clearInterval(this.timer);
 		}
 		this.timer = setInterval(function(){
-			let bullet = $("<img style='position: absolute;' src='"+bulletImg+"'/>");
-			let x = +hero.css("left").slice(0, -2) + 45;
-			let y = +hero.css("top").slice(0, -2);
-			bullet.css({"left": x + "px", "top": y + "px"});
-			$("#planePanel").append(bullet);
-			bullet.yspeed = -10;
-			bullet.step = step;
-			bullet.outOfPanel = outOfPanel;
-			bullets.push(bullet);
+			if (status == 1) {
+				let bullet = $("<img style='position: absolute;' src='"+bulletImg+"'/>");
+				let x = +hero.css("left").slice(0, -2) + 45;
+				let y = +hero.css("top").slice(0, -2);
+				bullet.css({"left": x + "px", "top": y + "px"});
+				$("#planePanel").append(bullet);
+				bullet.yspeed = -10;
+				bullet.step = step;
+				bullet.outOfPanel = outOfPanel;
+				bullets.push(bullet);
+			}
 		}, 200);
 	};
 	bulletFactory.stop = function() {
@@ -172,14 +197,14 @@ $(document).on("pagecreate", "#planefight", function(){
 	let gameObj = {};
 	gameObj.timer = null;
 	gameObj.start = function() {// 开始游戏
-		if (status == 1) {
-			hero.penHuo();
-			enemyFactory.create();
-			bulletFactory.create();
-			if (this.timer) {
-				clearInterval(this.timer);
-			}
-			this.timer = setInterval(function() {
+		hero.penHuo();
+		enemyFactory.create();
+		bulletFactory.create();
+		if (this.timer) {
+			clearInterval(this.timer);
+		}
+		this.timer = setInterval(function() {
+			if (status == 1) {
 				for (let i in bees) {
 					bees[i].step();
 					let r = bees[i].outOfPanel();
@@ -210,8 +235,8 @@ $(document).on("pagecreate", "#planefight", function(){
 					}
 				}
 				hero.isHit();
-			}, 20);
-		}
+			}
+		}, 20);
 	};
 	gameObj.stop = function() {
 		hero.stop();
@@ -219,5 +244,4 @@ $(document).on("pagecreate", "#planefight", function(){
 		bulletFactory.stop();
 		clearInterval(this.timer);
 	};
-	gameObj.start();
 });
