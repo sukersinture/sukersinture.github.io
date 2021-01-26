@@ -1,4 +1,6 @@
 $(document).on("pagecreate", "#planefight", function(){
+	let clientWidth = document.body.clientWidth;
+	let clientHeight = document.body.clientHeight;
 	let status = 0;// 游戏状态
 	// 设置背景图片和尺寸
 	$("#planePanel").css("width", clientWidth + "px")
