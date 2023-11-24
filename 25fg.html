@@ -1,0 +1,193 @@
+<!DOCTYPE html>  
+<html lang="zh">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>舒尔特方格游戏</title>  
+  <style>  
+		/* 重置浏览器默认样式 */  
+		* {  
+			margin: 0;  
+			padding: 0;  
+			box-sizing: border-box;  
+		}
+		body {  
+			display: flex;  
+			justify-content: center;  
+			align-items: center;  
+			min-height: 100vh;  
+			background-color: #f0f0f0;  
+			font-family: Arial, sans-serif;  
+		}
+		.container {  
+			display: flex;  
+			flex-direction: column;  
+			align-items: center;  
+			background-color: white;  
+			padding: 15px;  
+			border-radius: 10px;  
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);  
+			width: 90%;  
+			max-width: 400px;  
+		}
+		.board {  
+			display: grid;  
+			grid-template-columns: repeat(5, 1fr);  
+			grid-template-rows: repeat(5, 1fr);  
+			gap: 2px;  
+			width: 100%;  
+			max-width: 400px;  
+		}
+		.cell {  
+			display: flex;  
+			justify-content: center;  
+			align-items: center;  
+			position: relative;  
+			font-size: 18px;  
+			font-weight: bold;  
+			padding: 8px;  
+			border: 1px solid #ccc;  
+			border-radius: 5px;  
+			background-color: white;  
+			box-sizing: border-box;  
+		}
+		.cell.visible {  
+			background-color: #ffe;  
+		}
+		button {  
+			background-color: #4CAF50;  
+			border: none;  
+			color: white;  
+			padding: 8px 16px;  
+			text-align: center;  
+			text-decoration: none;  
+			display: inline-block;  
+			font-size: 16px;  
+			margin: 4px 2px;  
+			cursor: pointer;  
+			border-radius: 5px;  
+			margin-bottom: 10px;  
+		}
+		button#startBtn {  
+			background-color: #4CAF50;  
+			border: none;  
+			color: white;  
+			padding: 8px 16px;  
+			text-align: center;  
+			text-decoration: none;  
+			display: inline-block;  
+			font-size: 16px;  
+			margin: 4px 2px;  
+			cursor: pointer;  
+			border-radius: 5px;  
+			margin-bottom: 10px;  
+		}
+		button#resetBtn {  
+			background-color: #f44336;  
+			border: none;  
+			color: white;  
+			padding: 8px 16px;  
+			text-align: center;  
+			text-decoration: none;  
+			display: inline-block;  
+			font-size: 16px;  
+			margin: 4px 2px;  
+			cursor: pointer;  
+			border-radius: 5px;  
+		}
+  </style>  
+</head>  
+<body>  
+  <div class="container">  
+    <div class="board"></div>  
+    <button id="startBtn">开始游戏</button>  
+		<p id="currNum">当前数字：1</p>
+		<!-- <p id="timeInfo">用时：0 秒</p> -->
+  </div>  
+<script>
+let boardSize = 5; // 舒尔特方格的大小  
+let board = document.querySelector('.board');  
+let startBtn = document.getElementById('startBtn');  
+let currNumElement = document.getElementById('currNum');
+// let timeInfoElement = document.getElementById('timeInfo');
+let startTime = null;  
+let endTime = null;  
+
+let cells = [];
+let currNum = 1;
+
+// 初始化游戏数据  
+function init() {  
+	cells = [];
+  for (let i = 1; i <= boardSize * boardSize; i++) {  
+    cells.push({  
+      num: i
+    });  
+  }  
+  shuffleCells();  
+  drawBoard();  
+}
+
+// 洗牌算法  
+function shuffleCells() {  
+  for (let i = cells.length - 1; i > 0; i--) {  
+    let j = Math.floor(Math.random() * (i + 1));  
+    [cells[i], cells[j]] = [cells[j], cells[i]];  
+  }  
+}
+
+// 绘制棋盘  
+function drawBoard() {  
+  board.innerHTML = '';  
+  for (let i = 0; i < boardSize; i++) {  
+    for (let j = 0; j < boardSize; j++) {  
+      let cell = document.createElement('div');  
+      cell.className = 'cell';  
+      cell.textContent = cells[i * boardSize + j].num;  
+      cell.onclick = clickNumber;  
+      board.appendChild(cell);  
+    }  
+  }  
+}
+
+// 点击数字
+function clickNumber() {
+	let num = parseInt(this.innerHTML);
+	if (num == currNum) {
+		if (currNum < boardSize * boardSize) {
+			currNum++;  
+			currNumElement.innerHTML = "当前数字：" + currNum;  
+		} else {  
+			endTime = new Date().getTime();  
+			alert("游戏结束\n用时：" + (endTime - startTime) / 1000 + " 秒");  
+			startTime = null;  
+			endTime = null;  
+			cells = [];
+			board.innerHTML = '';  
+			currNum = 1;
+			currNumElement.innerHTML = "当前数字：1";  
+			startBtn.innerHTML = "开始游戏";
+		}
+	} else {
+		alert("点错啦~！");
+	}
+	
+}
+
+// 开始游戏  
+startBtn.addEventListener('click', () => {  
+  init();  
+	startTime = new Date().getTime();  
+	startBtn.innerHTML = "重新开始";
+	endTime = null;  
+	currNum = 1;
+	currNumElement.innerHTML = "当前数字：1";  
+});
+
+
+// 初始化游戏  
+// init();  
+
+</script>  
+</body>  
+</html>  

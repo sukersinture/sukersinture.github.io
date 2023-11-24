@@ -1,0 +1,163 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>贪吃蛇</title>  
+    <style>  
+        canvas {
+			display: block;
+			float: left;
+			background-color: #000; 
+        }
+		div {
+			padding: 100px;
+			width: 700px;
+			float: right;
+		}
+		button{;
+			font-weight: bold;
+			font-size: 100px;
+			width: 200px;
+			height: 200px;
+		}
+    </style>  
+</head>  
+<body>  
+    <canvas id="gameCanvas" width="800" height="800"></canvas>  
+	<div >
+	<button style="opacity: 0;">○</button><button >↑</button><button style="opacity: 0;">○</button><br/>
+	<button>←</button><button>○</button><button>→</button><br/>
+	<button style="opacity: 0;">○</button><button>↓</button><button style="opacity: 0;">○</button>
+	</div>
+    <script>  
+        const canvas = document.getElementById('gameCanvas');  
+        const ctx = canvas.getContext('2d');
+
+        const gridSize = 40;  
+        const snakeSpeed = 800;
+        let snake = [
+			{ x: gridSize * 5, y: gridSize * 5 }, 
+			{ x: gridSize * 4, y: gridSize * 5 },
+			{ x: gridSize * 3, y: gridSize * 5 },
+			{ x: gridSize * 2, y: gridSize * 5 },
+			{ x: gridSize * 1, y: gridSize * 5 }
+		];  
+        let food = { x: gridSize * 10, y: gridSize * 10, c: '#f00' };  
+        let direction = 'right';  
+		let currColor = '#0f0';
+        let interval;
+
+        function createGrid(x, y, c) {  
+            ctx.beginPath();  
+            ctx.rect(x, y, gridSize, gridSize);  
+			ctx.fillStyle = c;
+            ctx.fill();  
+        }
+
+        function draw() {  
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制蛇身  
+            for (let i = 0; i < snake.length; i++) {  
+                createGrid(snake[i].x, snake[i].y, currColor);  
+            }
+
+            // 绘制食物  
+            createGrid(food.x, food.y, food.c);  
+        }
+
+        function update() {  
+            let newX, newY;
+
+            switch (direction) {  
+                case 'right':  
+                    newX = snake[0].x + gridSize;  
+                    newY = snake[0].y;  
+                    break;  
+                case 'left':  
+                    newX = snake[0].x - gridSize;  
+                    newY = snake[0].y;  
+                    break;  
+                case 'up':  
+                    newX = snake[0].x;  
+                    newY = snake[0].y - gridSize;  
+                    break;  
+                case 'down':  
+                    newX = snake[0].x;  
+                    newY = snake[0].y + gridSize;  
+                    break;  
+            }
+
+            snake.unshift({ x: newX, y: newY });  
+            //snake.pop();
+
+            if (newX === food.x && newY === food.y) {  
+				currColor = food.c;
+				let color = getColor();
+				console.info(color);
+                food = {  
+                    x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,  
+                    y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize, 
+					c: color
+                };
+            } else {  
+                snake.pop();  
+            }
+
+            if (  
+                (newX < 0 || newX >= canvas.width || newY < 0 || newY >= canvas.height)  
+            ) {  
+                snake = [
+					{ x: gridSize * 5, y: gridSize * 5 }, 
+					{ x: gridSize * 4, y: gridSize * 5 },
+					{ x: gridSize * 3, y: gridSize * 5 },
+					{ x: gridSize * 2, y: gridSize * 5 },
+					{ x: gridSize * 1, y: gridSize * 5 }
+				];  
+				food = { x: gridSize * 10, y: gridSize * 10, c: '#f00' };  
+				direction = 'right';   
+				currColor = '#0f0';
+            }
+
+            draw();  
+        }
+
+        function changeDirection(e) {  
+            if (e.key === 'ArrowUp' && direction !== 'down') {  
+                direction = 'up';  
+            } else if (e.key === 'ArrowDown' && direction !== 'up') {  
+                direction = 'down';  
+            } else if (e.key === 'ArrowLeft' && direction !== 'right') {  
+                direction = 'left';  
+            } else if (e.key === 'ArrowRight' && direction !== 'left') {  
+                direction = 'right';  
+            }  
+        }
+		
+		function getColor() {
+			let r = parseInt(Math.random() * 25) * 10;
+			let g = parseInt(Math.random() * 25) * 10;
+			let b = parseInt(Math.random() * 25) * 10;
+			return "rgb("+r+", "+g+", "+b+")";
+		}
+		let buts = document.getElementsByTagName("button");
+		
+		for (let i = 0; i < buts.length; i++) {
+			buts[i].onmouseover = function() {
+				if (this.innerHTML == '←') {
+					direction = 'left';
+				} else if (this.innerHTML == '↑') {
+					direction = 'up';
+				} else if (this.innerHTML == '→') {
+					direction = 'right';
+				} else if (this.innerHTML == '↓') {
+					direction = 'down';
+				}
+			};
+		}
+        document.addEventListener('keydown', changeDirection);  
+        interval = setInterval(update, snakeSpeed);  
+    </script>  
+</body>  
+</html>
